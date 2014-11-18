@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ab055aaa8d8576c4192497ee7abb8dc0
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - cellPrefab: {instanceID: 0}
+  - passagePrefab: {fileID: 11400000, guid: e14ec6a70a44a9645b555d72fa79ec37, type: 2}
+  - wallPrefab: {instanceID: 0}
+  - audioSource: {instanceID: 0}
+  - placeCell: {instanceID: 0}
+  - finished: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
