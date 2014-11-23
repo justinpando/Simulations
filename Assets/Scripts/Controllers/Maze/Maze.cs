@@ -13,11 +13,18 @@ public class Maze : MonoBehaviour {
 		}
 	}	
 	
+	public MazeRoomSettings[] roomSettings;
+	private List<MazeRoom> rooms = new List<MazeRoom>();
+	
 	public MazeCell cellPrefab;
 	private MazeCell[,] cells;
 	
 	public MazePassage passagePrefab;
 	public MazeWall[] wallPrefabs;
+	public MazeDoor doorPrefab;
+	
+	[Range(0f, 1f)]
+	public float doorProbability;
 
 	public float generationStepDelay;
 
@@ -37,6 +44,17 @@ public class Maze : MonoBehaviour {
 	void Update () {
 	
 	}
+	
+	private MazeRoom CreateRoom (int indexToExclude) {
+		MazeRoom newRoom = ScriptableObject.CreateInstance<MazeRoom>();
+		newRoom.settingsIndex = Random.Range(0, roomSettings.Length);
+		if (newRoom.settingsIndex == indexToExclude) {
+			newRoom.settingsIndex = (newRoom.settingsIndex + 1) % roomSettings.Length;
+		}
+		newRoom.settings = roomSettings[newRoom.settingsIndex];
+		rooms.Add(newRoom);
+		return newRoom;
+	}	
 	
 	public bool ContainsCoordinates (IntVector2 coordinate) {
 		return coordinate.x >= 0 && coordinate.x < size.x && coordinate.z >= 0 && coordinate.z < size.z;
@@ -64,9 +82,10 @@ public class Maze : MonoBehaviour {
 	}
 	
 	private void DoFirstGenerationStep (List<MazeCell> activeCells) {
-		//Place a cell in a random spot
-		activeCells.Add(CreateCell(RandomCoordinates));
-		Debug.Log (activeCells.Count);
+		//Place a cell in a random spot		
+		MazeCell newCell = CreateCell(RandomCoordinates);
+		newCell.Initialize(CreateRoom(-1));
+		activeCells.Add(newCell);		
 	}
 	
 	private void DoNextGenerationStep (List<MazeCell> activeCells) {
@@ -92,6 +111,9 @@ public class Maze : MonoBehaviour {
 				CreatePassage(currentCell, neighbor, direction);
 				activeCells.Add(neighbor);
 			} 
+			else if (currentCell.room.settingsIndex == neighbor.room.settingsIndex) {
+				CreatePassageInSameRoom(currentCell, neighbor, direction);
+			}			
 			//if there is, create a wall
 			else {
 				CreateWall(currentCell, neighbor, direction);		
@@ -117,11 +139,34 @@ public class Maze : MonoBehaviour {
 	}	
 	//Creates passages between two cells
 	private void CreatePassage (MazeCell cell, MazeCell otherCell, MazeDirection direction) {
+		MazePassage prefab = Random.value < doorProbability ? doorPrefab : passagePrefab;
+		MazePassage passage = Instantiate(prefab) as MazePassage;
+		passage.Initialize(cell, otherCell, direction);
+		passage = Instantiate(prefab) as MazePassage;
+		
+		if (passage is MazeDoor) {
+			otherCell.Initialize(CreateRoom(cell.room.settingsIndex));
+		}
+		else {
+			otherCell.Initialize(cell.room);
+		}		
+		
+		passage.Initialize(otherCell, cell, direction.GetOpposite());
+	}
+	
+	private void CreatePassageInSameRoom (MazeCell cell, MazeCell otherCell, MazeDirection direction) {
 		MazePassage passage = Instantiate(passagePrefab) as MazePassage;
 		passage.Initialize(cell, otherCell, direction);
 		passage = Instantiate(passagePrefab) as MazePassage;
 		passage.Initialize(otherCell, cell, direction.GetOpposite());
-	}
+		if (cell.room != otherCell.room) {
+			MazeRoom roomToAssimilate = otherCell.room;
+			cell.room.Assimilate(roomToAssimilate);
+			rooms.Remove(roomToAssimilate);
+			Destroy(roomToAssimilate);
+		}
+	}	
+	
 	// Creates walls between two cells
 	private void CreateWall (MazeCell cell, MazeCell otherCell, MazeDirection direction) {
 		MazeWall wall = Instantiate(wallPrefabs[Random.Range(0, wallPrefabs.Length)]) as MazeWall;

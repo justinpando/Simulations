@@ -101,6 +101,15 @@ MonoBehaviour:
   size:
     x: 20
     z: 20
+  roomSettings:
+  - floorMaterial: {fileID: 2100000, guid: 9f4c39628d979a647a459d75177b6b3a, type: 2}
+    wallMaterial: {fileID: 2100000, guid: ac04d6ce65db1324a829b3e960de9a4a, type: 2}
+  - floorMaterial: {fileID: 2100000, guid: bcb98609b37eb064ba07b4bf329f6c3b, type: 2}
+    wallMaterial: {fileID: 2100000, guid: f98443600d011fe4082b4d88c88e9963, type: 2}
+  - floorMaterial: {fileID: 2100000, guid: 6ead4df5c0c8e0042bd3c03607415f4a, type: 2}
+    wallMaterial: {fileID: 2100000, guid: c4a8421beeae92340aea0cde0ab9f111, type: 2}
+  - floorMaterial: {fileID: 2100000, guid: 50e60b752b433314f9f57d65f2c1c8c6, type: 2}
+    wallMaterial: {fileID: 2100000, guid: 94f8afb9c3a18cd46aca9ebc1d489f29, type: 2}
   cellPrefab: {fileID: 11400000, guid: c8178228804b45448a127d36f1117225, type: 2}
   passagePrefab: {fileID: 11400000, guid: e14ec6a70a44a9645b555d72fa79ec37, type: 2}
   wallPrefabs:
@@ -109,6 +118,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6ac3694a1a771d143ac6efce04bebd45, type: 2}
   - {fileID: 11400000, guid: beb91fccdad05454d9cd92f66485376a, type: 2}
   - {fileID: 11400000, guid: 501744a3e3ba7f24f872df528782c67c, type: 2}
+  doorPrefab: {fileID: 11400000, guid: 2b8d7b428006f8845814306d1e1e8e6f, type: 2}
+  doorProbability: .101000004
   generationStepDelay: .00100000005
   completed: 0
   audioSource: {fileID: 8200000}

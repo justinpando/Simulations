@@ -194,10 +194,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: .300000012
-  far clip plane: 1000
+  far clip plane: 50
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 11.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -215,8 +215,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1249297945}
-  m_LocalRotation: {x: .143357798, y: 0, z: 0, w: .989670932}
-  m_LocalPosition: {x: 0, y: 13.641573, z: -20.8322048}
+  m_LocalRotation: {x: -.347655058, y: .34728545, z: -.140361682, w: -.859550714}
+  m_LocalPosition: {x: 18.2456799, y: 25.8960552, z: -18.8898907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32da25f297db6b345b56ff4734677516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 11400000, guid: f9d7611832270d64eb906edf23aa7e96, type: 2}
   mazePrefab: {fileID: 11400000, guid: df8d0973926ba0f4e8731055b46282cf, type: 2}
   audioSource: {fileID: 2094860638}
   finished: {fileID: 8300000, guid: 5d610bc00f2454343a6384c7054a9214, type: 3}

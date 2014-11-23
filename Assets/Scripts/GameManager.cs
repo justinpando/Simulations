@@ -3,8 +3,10 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
+	public MazePlayer playerPrefab;
+	private MazePlayer playerInstance;
+
 	public Maze mazePrefab;
-	
 	private Maze mazeInstance;
 
 	public AudioSource audioSource;
@@ -13,7 +15,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		BeginGame();
+		StartCoroutine(BeginGame());
 	}
 	
 	// Update is called once per frame
@@ -24,15 +26,20 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	void BeginGame () {
+	private IEnumerator BeginGame () {
 		mazeInstance = Instantiate (mazePrefab) as Maze;
-		StartCoroutine(mazeInstance.Generate());
+		yield return StartCoroutine(mazeInstance.Generate());
+		playerInstance = Instantiate(playerPrefab) as MazePlayer;
+		playerInstance.SetLocation(mazeInstance.GetCell(mazeInstance.RandomCoordinates));
 	}
 	
 	void RestartGame () {
 		StopAllCoroutines();
 		Destroy (mazeInstance.gameObject);
-		BeginGame();
+		if (playerInstance != null) {
+			Destroy(playerInstance.gameObject);
+		}
+		StartCoroutine(BeginGame());
 	}
 	
 	void MazeFinished() {
