@@ -27,10 +27,14 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private IEnumerator BeginGame () {
+		Camera.main.clearFlags = CameraClearFlags.Skybox;
+		Camera.main.rect = new Rect(0f, 0f, 1f, 1f);
 		mazeInstance = Instantiate (mazePrefab) as Maze;
 		yield return StartCoroutine(mazeInstance.Generate());
 		playerInstance = Instantiate(playerPrefab) as MazePlayer;
 		playerInstance.SetLocation(mazeInstance.GetCell(mazeInstance.RandomCoordinates));
+		Camera.main.rect = new Rect(0f, 0f, .5f, .5f);
+		Camera.main.clearFlags = CameraClearFlags.Depth;
 	}
 	
 	void RestartGame () {

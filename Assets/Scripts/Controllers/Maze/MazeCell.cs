@@ -45,6 +45,28 @@ public class MazeCell : MonoBehaviour {
 		initializedEdgeCount += 1;
 	}
 	
+	public void OnPlayerEntered () {
+		room.Show();
+		for (int i = 0; i < edges.Length; i++) {
+			edges[i].OnPlayerEntered();
+		}
+	}
+	
+	public void OnPlayerExited () {
+		room.Hide();
+		for (int i = 0; i < edges.Length; i++) {
+			edges[i].OnPlayerExited();
+		}
+	}	
+	
+	public void Show () {
+		gameObject.SetActive(true);
+	}
+	
+	public void Hide () {
+		gameObject.SetActive(false);
+	}
+		
 	// Use this for initialization
 	void Start () {
 	
